@@ -1,10 +1,8 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
 
-# =====================================
 # 1. 建立預測條件
-# =====================================
 
 years = np.arange(2026, 2032)
 
@@ -12,9 +10,8 @@ base_index = 100
 
 growth_rates = { "保守情境 4%": 0.04,"基準情境 8%": 0.08,"成功借鏡日本經營模式 12%": 0.12}
 
-# =====================================
+
 # 2. 計算三種情境營收指數
-# =====================================
 
 data = {"年度": years}
 
@@ -29,16 +26,15 @@ for scenario, rate in growth_rates.items():
 
 df = pd.DataFrame(data)
 
-# =====================================
+
 # 3. 顯示預測資料
-# =====================================
 
 print("台灣電商 2026～2031 成長情境預測")
 print(df.round(2).to_string(index=False))
 
-# =====================================
+
 # 4. 設定中文字型
-# =====================================
+
 
 plt.rcParams["font.sans-serif"] = [
     "Microsoft JhengHei",
@@ -48,9 +44,8 @@ plt.rcParams["font.sans-serif"] = [
 
 plt.rcParams["axes.unicode_minus"] = False
 
-# =====================================
+
 # 5. 繪製預測折線圖
-# =====================================
 
 plt.figure(figsize=(12, 7))
 
@@ -72,9 +67,8 @@ plt.plot(
     label="成功借鏡日本經營模式 12%"
 )
 
-# =====================================
+
 # 6. 顯示各年度數值
-# =====================================
 
 for scenario in growth_rates:
 
@@ -89,9 +83,8 @@ for scenario in growth_rates:
             fontsize=9
         )
 
-# =====================================
+
 # 7. 圖表格式
-# =====================================
 
 plt.title(
     "台灣電商 2026～2031 年成長情境預測",
@@ -118,3 +111,7 @@ plt.legend(
 
 plt.tight_layout()
 
+
+# 8. 存檔
+
+plt.savefig( "台灣電商2026_2031成長預測.png",dpi=300,bbox_inches="tight")
