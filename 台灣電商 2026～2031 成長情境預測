@@ -1,0 +1,120 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+# =====================================
+# 1. 建立預測條件
+# =====================================
+
+years = np.arange(2026, 2032)
+
+base_index = 100
+
+growth_rates = { "保守情境 4%": 0.04,"基準情境 8%": 0.08,"成功借鏡日本經營模式 12%": 0.12}
+
+# =====================================
+# 2. 計算三種情境營收指數
+# =====================================
+
+data = {"年度": years}
+
+for scenario, rate in growth_rates.items():
+
+    indexes = [
+        base_index * (1 + rate) ** (year - 2026)
+        for year in years
+    ]
+
+    data[scenario] = indexes
+
+df = pd.DataFrame(data)
+
+# =====================================
+# 3. 顯示預測資料
+# =====================================
+
+print("台灣電商 2026～2031 成長情境預測")
+print(df.round(2).to_string(index=False))
+
+# =====================================
+# 4. 設定中文字型
+# =====================================
+
+plt.rcParams["font.sans-serif"] = [
+    "Microsoft JhengHei",
+    "PingFang TC",
+    "Arial Unicode MS"
+]
+
+plt.rcParams["axes.unicode_minus"] = False
+
+# =====================================
+# 5. 繪製預測折線圖
+# =====================================
+
+plt.figure(figsize=(12, 7))
+
+plt.plot(
+    years, df["保守情境 4%"],
+    marker="o", linewidth=2.5,
+    label="保守情境 4%"
+)
+
+plt.plot(
+    years, df["基準情境 8%"],
+    marker="o", linewidth=2.5,
+    label="基準情境 8%"
+)
+
+plt.plot(
+    years, df["成功借鏡日本經營模式 12%"],
+    marker="o", linewidth=2.5,
+    label="成功借鏡日本經營模式 12%"
+)
+
+# =====================================
+# 6. 顯示各年度數值
+# =====================================
+
+for scenario in growth_rates:
+
+    for x, y in zip(years, df[scenario]):
+
+        plt.annotate(
+            f"{y:.2f}",
+            (x, y),
+            textcoords="offset points",
+            xytext=(0, 10),
+            ha="center",
+            fontsize=9
+        )
+
+# =====================================
+# 7. 圖表格式
+# =====================================
+
+plt.title(
+    "台灣電商 2026～2031 年成長情境預測",
+    fontsize=18,
+    fontweight="bold"
+)
+
+plt.xlabel("年度", fontsize=12)
+plt.ylabel("營收成長指數（2026年 = 100）", fontsize=12)
+
+plt.xticks(years)
+plt.ylim(90, 190)
+
+plt.grid(
+    True,
+    linestyle="--",
+    alpha=0.4
+)
+
+plt.legend(
+    loc="upper left",
+    fontsize=11
+)
+
+plt.tight_layout()
+
